@@ -8,16 +8,26 @@
 </template>
 
 <script>
+const API_URL = 'http://localhost:8080/api';
+
 export default {
   name: 'gruff',
   data() {
     return {
-      debate: {
-        title: 'Is Donald Trump packing his cabinet with white supremacists?',
-        description: 'Donal Trump has appointed several cabinet members that are accused of being white supremacists. It that true, and is that a unique occurrence?',
-        active: true,
-      },
+      debate: {},
     };
+  },
+
+  created() {
+    this.get();
+  },
+
+  methods: {
+    get() {
+      this.$http.get(`${API_URL}/debates/${this.$route.params.id}`).then((data) => {
+        this.debate = data.body;
+      });
+    },
   },
 };
 </script>
