@@ -1,4 +1,5 @@
 /* globals localStorage */
+import axios from 'axios';
 import router from './main';
 
 const API_URL = 'http://localhost:8080/api';
@@ -11,11 +12,11 @@ export default {
   },
 
   login(context, model, redirect) {
-    context.$http.post(`${API_URL}/auth`, model).then((result) => {
-      localStorage.setItem('gruff_token', JSON.stringify(result.body));
+    axios.post(`${API_URL}/auth`, model).then((response) => {
+      localStorage.setItem('gruff_token', JSON.stringify(response.data));
 
       this.user.authenticated = true;
-      this.user.name = result.body.user.name;
+      this.user.name = response.data.user.name;
 
       if (redirect !== undefined) {
         router.push(redirect);
@@ -27,11 +28,11 @@ export default {
   },
 
   signup(context, model, redirect) {
-    context.$http.post(`${API_URL}/users`, model).then((result) => {
-      localStorage.setItem('gruff_token', JSON.stringify(result.body));
+    axios.post(`${API_URL}/users`, model).then((response) => {
+      localStorage.setItem('gruff_token', JSON.stringify(response.data));
 
       this.user.authenticated = true;
-      this.user.name = result.body.user.name;
+      this.user.name = response.data.user.name;
 
       if (redirect !== undefined) {
         router.push(redirect);

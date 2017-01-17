@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import router from '../main';
 
 const API_URL = 'http://localhost:8080/api';
@@ -47,8 +48,8 @@ export default {
     },
 
     list() {
-      this.$http.get(`${API_URL}/debates`).then((data) => {
-        this.debates = data.body;
+      axios.get(`${API_URL}/claims`).then((response) => {
+        this.debates = response.data;
       });
     },
   },

@@ -11,7 +11,7 @@
       <div class="col-md-12">
         <div>
           <h3>Arguments in Favor</h3>
-          <button @click="argumentFavor()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Propose Your Own Argument</button>
+          <button @click="argumentFavor()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Add a new Argument</button>
         </div>
       </div>
       <div class="col-md-12 space-20 left" v-if="formFavor">
@@ -20,11 +20,11 @@
         </div>
         <h4>Add a New Debate</h4>
         <div class="form-group">
-          <label>Debate Title</label>
+          <label>Argument Title</label>
           <input type="text" class="form-control" placeholder="Title" v-model="argFavor.title">
         </div>
         <div class="form-group">
-          <label>Debate Description</label>
+          <label>Argument Description</label>
           <input type="text" class="form-control" placeholder="Description" v-model="argFavor.desc">
         </div>
         <button @click="saveFavor()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Send It</button>
@@ -33,11 +33,11 @@
       <div class="col-md-12 space left">
         <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 100%;">
           <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">Sub-Debates</h2>
+            <h2 class="mdl-card__title-text">Arguments</h2>
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.protruth">
-              <a>{{item.debate.title}}</a>
+              <a>{{item.claim.title}}</a>
             </ul>
           </div>
         </div>
@@ -49,7 +49,7 @@
       <div class="col-md-12">
         <div>
           <h3>Arguments in Against</h3>
-          <button @click="argumentAgainst()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Propose Your Own Argument</button>
+          <button @click="argumentAgainst()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Add a new Argument</button>
         </div>
       </div>
       <div class="col-md-12 left space-20" v-if="formAgainst">
@@ -58,11 +58,11 @@
         </div>
         <h4>Add a New Debate</h4>
         <div class="form-group">
-          <label>Debate Title</label>
+          <label>Argument Title</label>
           <input type="text" class="form-control" placeholder="Title" v-model="argAgainst.title">
         </div>
         <div class="form-group">
-          <label>Debate Description</label>
+          <label>Argument Description</label>
           <input type="text" class="form-control" placeholder="Description" v-model="argAgainst.desc">
         </div>
         <button @click="saveAgainst()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">Send It</button>
@@ -71,11 +71,11 @@
       <div class="col-md-12 space left">
         <div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 100%;">
           <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">Sub-Debates</h2>
+            <h2 class="mdl-card__title-text">Arguments</h2>
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.contruth">
-              <a>{{item.debate.title}}</a>
+              <a>{{item.claim.title}}</a>
             </ul>
           </div>
         </div>
@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 const API_URL = 'http://localhost:8080/api';
 
 export default {
@@ -102,13 +104,13 @@ export default {
   },
 
   created() {
-    this.get();
+    this.list();
   },
 
   methods: {
-    get() {
-      this.$http.get(`${API_URL}/debates/${this.$route.params.id}`).then((data) => {
-        this.debate = data.body;
+    list() {
+      axios.get(`${API_URL}/claims/${this.$route.params.id}`).then((response) => {
+        this.debate = response.data;
       });
     },
 
@@ -124,8 +126,8 @@ export default {
 
     saveFavor() {
       this.argFavor.type = 1;
-      this.argFavor.debateId = this.debate.uuid;
-      this.$http.post(`${API_URL}/arguments`, this.argFavor).then(() => {
+      this.argFavor.claimId = this.debate.uuid;
+      axios.post(`${API_URL}/arguments`, this.argFavor).then(() => {
         this.get();
       }, () => {
         this.isError1 = true;
@@ -138,8 +140,8 @@ export default {
 
     saveAgainst() {
       this.argAgainst.type = 6;
-      this.argAgainst.debateId = this.debate.uuid;
-      this.$http.post(`${API_URL}/arguments`, this.argAgainst).then(() => {
+      this.argAgainst.claimId = this.debate.uuid;
+      axios.post(`${API_URL}/arguments`, this.argAgainst).then(() => {
         this.get();
       }, () => {
         this.isError2 = true;
