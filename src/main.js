@@ -16,6 +16,7 @@ const storage = localStorage.getItem('gruff_token');
 let token = '';
 
 if (storage !== null) {
+  auth.loggedIn();
   token = JSON.parse(storage).token;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 }

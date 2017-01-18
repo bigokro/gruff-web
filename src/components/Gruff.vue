@@ -110,7 +110,8 @@ export default {
   methods: {
     list() {
       axios.get(`${API_URL}/claims/${this.$route.params.id}`).then((response) => {
-        this.debate = response.data;
+        const debate = response.data;
+        this.debate = debate;
       });
     },
 
@@ -127,6 +128,7 @@ export default {
     saveFavor() {
       this.argFavor.type = 1;
       this.argFavor.claimId = this.debate.uuid;
+      this.argFavor.targetClaimId = this.debate.uuid;
       axios.post(`${API_URL}/arguments`, this.argFavor).then(() => {
         this.get();
       }, () => {
@@ -141,6 +143,7 @@ export default {
     saveAgainst() {
       this.argAgainst.type = 6;
       this.argAgainst.claimId = this.debate.uuid;
+      this.argAgainst.targetClaimId = this.debate.uuid;
       axios.post(`${API_URL}/arguments`, this.argAgainst).then(() => {
         this.get();
       }, () => {
