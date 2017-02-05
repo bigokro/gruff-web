@@ -126,10 +126,16 @@ export default {
     },
 
     saveFavor() {
-      this.argFavor.type = 1;
-      this.argFavor.claimId = this.debate.uuid;
-      this.argFavor.targetClaimId = this.debate.uuid;
-      axios.post(`${API_URL}/arguments`, this.argFavor).then(() => {
+      const model = {
+        targetClaimID: this.$route.params.id,
+        type: 1,
+        claim: {
+          title: this.argFavor.title,
+          desc: this.argFavor.desc,
+        },
+      };
+
+      axios.post(`${API_URL}/arguments`, model).then(() => {
         this.get();
       }, () => {
         this.isError1 = true;
@@ -141,10 +147,16 @@ export default {
     },
 
     saveAgainst() {
-      this.argAgainst.type = 6;
-      this.argAgainst.claimId = this.debate.uuid;
-      this.argAgainst.targetClaimId = this.debate.uuid;
-      axios.post(`${API_URL}/arguments`, this.argAgainst).then(() => {
+      const model = {
+        targetClaimID: this.$route.params.id,
+        type: 2,
+        claim: {
+          title: this.argAgainst.title,
+          desc: this.argAgainst.desc,
+        },
+      };
+
+      axios.post(`${API_URL}/arguments`, model).then(() => {
         this.get();
       }, () => {
         this.isError2 = true;
