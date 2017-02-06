@@ -80,7 +80,12 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.contruth">
-              <a>{{item.claim.title}}</a>
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}</a>
+              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}}</a>
+              <ul style="list-style: none;" v-show="item.isShow">
+                <li v-if="item.desc != ''">{{item.desc}}</li>
+                <li v-else>{{item.claim.desc}}</li>
+              </ul>
             </ul>
           </div>
         </div>
@@ -115,12 +120,12 @@ export default {
   methods: {
     list() {
       axios.get(`${API_URL}/claims/${this.$route.params.id}`).then((response) => {
-        let debate = response.data;
-        for (let i = 0; i < debate.protruth.length; i++) {
+        const debate = response.data;
+        for (let i = 0; i < debate.protruth.length; i += 1) {
           debate.protruth[i].isShow = false;
         }
 
-        for (let i = 0; i < debate.contruth.length; i++) {
+        for (let i = 0; i < debate.contruth.length; i += 1) {
           debate.contruth[i].isShow = false;
         }
         this.debate = debate;
@@ -148,7 +153,8 @@ export default {
       };
 
       axios.post(`${API_URL}/arguments`, model).then(() => {
-        this.get();
+        this.formFavor = false;
+        this.list();
       }, () => {
         this.isError1 = true;
         this.favorError = 'You must be logged.';
@@ -169,7 +175,8 @@ export default {
       };
 
       axios.post(`${API_URL}/arguments`, model).then(() => {
-        this.get();
+        this.formAgainst = false;
+        this.list();
       }, () => {
         this.isError2 = true;
         this.againstError = 'You must be logged.';
