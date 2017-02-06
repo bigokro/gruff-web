@@ -62,6 +62,14 @@ export default {
     return this.user.authenticated;
   },
 
+  getLoggedId() {
+    const auth = localStorage.getItem('gruff_token');
+    let id = 0;
+    if (auth !== null) {
+      id = JSON.parse(localStorage.getItem('gruff_token')).user.id;
+    }
+    return id;
+  },
 
   getAuthHeader() {
     const token = JSON.parse(localStorage.getItem('gruff_token')).token;

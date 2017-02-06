@@ -37,11 +37,16 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.protruth">
-              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}</a>
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}
+              </a>
               <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}}</a>
+              <i class="fa fa-pencil" aria-hidden="true" style="margin-left:10px; cursor: pointer;" @click="edit('favor', item)"></i>
               <ul style="list-style: none;" v-show="item.isShow">
                 <li v-if="item.desc != ''">{{item.desc}}</li>
                 <li v-else>{{item.claim.desc}}</li>
+                <li v-if="item.claim != undefined">Truth: {{item.claim.truth}}</li>
+                <li>Impact: {{item.impact}}</li>
+                <li>Relevance: {{item.relevance}}</li>
               </ul>
             </ul>
           </div>
@@ -82,9 +87,13 @@
             <ul v-for="item in debate.contruth">
               <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}</a>
               <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}}</a>
+              <i class="fa fa-pencil" aria-hidden="true" style="margin-left:10px; cursor: pointer;" @click="edit('favor', item)"></i>
               <ul style="list-style: none;" v-show="item.isShow">
                 <li v-if="item.desc != ''">{{item.desc}}</li>
                 <li v-else>{{item.claim.desc}}</li>
+                <li v-if="item.claim != undefined">Truth: {{item.claim.truth}}</li>
+                <li>Impact: {{item.impact}}</li>
+                <li>Relevance: {{item.relevance}}</li>
               </ul>
             </ul>
           </div>
@@ -96,6 +105,7 @@
 
 <script>
 import axios from 'axios';
+// import auth from '../auth';
 
 const API_URL = 'http://localhost:8080/api';
 
@@ -133,13 +143,47 @@ export default {
     },
 
     argumentFavor() {
+      this.argFavor = {};
       this.formAgainst = false;
       this.formFavor = true;
     },
 
     argumentAgainst() {
+      this.argAgainst = {};
       this.formFavor = false;
       this.formAgainst = true;
+    },
+
+    edit(type, item) {
+      if (type === 'favor') {
+        this.argumentFavor();
+        this.argFavor.uuid = item.uuid;
+        if (item.title !== '') {
+          this.argFavor.title = item.title;
+        } else {
+          this.argFavor.title = item.claim.title;
+        }
+
+        if (item.desc !== '') {
+          this.argFavor.desc = item.desc;
+        } else {
+          this.argFavor.desc = item.claim.desc;
+        }
+      } else {
+        this.argumentAgainst();
+        this.argAgainst.uuid = item.uuid;
+        if (item.title !== '') {
+          this.argAgainst.title = item.title;
+        } else {
+          this.argAgainst.title = item.claim.title;
+        }
+
+        if (item.desc !== '') {
+          this.argAgainst.desc = item.desc;
+        } else {
+          this.argAgainst.desc = item.claim.desc;
+        }
+      }
     },
 
     saveFavor() {
@@ -152,16 +196,19 @@ export default {
         },
       };
 
-      axios.post(`${API_URL}/arguments`, model).then(() => {
-        this.formFavor = false;
-        this.list();
-      }, () => {
-        this.isError1 = true;
-        this.favorError = 'You must be logged.';
-        setTimeout(() => {
-          this.isError1 = false;
-        }, 2000);
-      });
+      if (this.argFavor.uuid === undefined) {
+        axios.post(`${API_URL}/arguments`, model).then(() => {
+          this.formFavor = false;
+          this.argFavor = {};
+          this.list();
+        }, () => {
+          this.isError1 = true;
+          this.favorError = 'You must be logged.';
+          setTimeout(() => {
+            this.isError1 = false;
+          }, 2000);
+        });
+      }
     },
 
     saveAgainst() {
@@ -174,17 +221,20 @@ export default {
         },
       };
 
-      axios.post(`${API_URL}/arguments`, model).then(() => {
-        this.formAgainst = false;
-        this.list();
-      }, () => {
-        this.isError2 = true;
-        this.againstError = 'You must be logged.';
+      if (this.argAgainst.uuid === undefined) {
+        axios.post(`${API_URL}/arguments`, model).then(() => {
+          this.formAgainst = false;
+          this.argAgainst = {};
+          this.list();
+        }, () => {
+          this.isError2 = true;
+          this.againstError = 'You must be logged.';
 
-        setTimeout(() => {
-          this.isError2 = false;
-        }, 2000);
-      });
+          setTimeout(() => {
+            this.isError2 = false;
+          }, 2000);
+        });
+      }
     },
 
     cancel() {
