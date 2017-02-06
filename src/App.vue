@@ -13,6 +13,7 @@ import Signup from './components/Signup';
 import User from './components/User';
 import Gruff from './components/Gruff';
 
+
 export default {
   name: 'app',
   components: {
@@ -33,5 +34,26 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.my-swipe {
+  height: 200px;
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+}
+
+.slide1 {
+  background-color: #0089dc;
+  color: #fff;
+}
+
+.slide2 {
+  background-color: #ffd705;
+  color: #000;
+}
+
+.slide3 {
+  background-color: #ff2d4b;
+  color: #fff;
 }
 </style>
