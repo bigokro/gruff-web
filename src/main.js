@@ -7,7 +7,6 @@ import VueRouter from 'vue-router';
 import App from './App';
 import auth from './auth';
 
-
 Vue.use(VueRouter);
 // Vue.prototype.$http = instance;
 

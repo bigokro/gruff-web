@@ -37,7 +37,12 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.protruth">
-              <a>{{item.claim.title}}</a>
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}</a>
+              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}}</a>
+              <ul style="list-style: none;" v-show="item.isShow">
+                <li v-if="item.desc != ''">{{item.desc}}</li>
+                <li v-else>{{item.claim.desc}}</li>
+              </ul>
             </ul>
           </div>
         </div>
@@ -110,7 +115,14 @@ export default {
   methods: {
     list() {
       axios.get(`${API_URL}/claims/${this.$route.params.id}`).then((response) => {
-        const debate = response.data;
+        let debate = response.data;
+        for (let i = 0; i < debate.protruth.length; i++) {
+          debate.protruth[i].isShow = false;
+        }
+
+        for (let i = 0; i < debate.contruth.length; i++) {
+          debate.contruth[i].isShow = false;
+        }
         this.debate = debate;
       });
     },
