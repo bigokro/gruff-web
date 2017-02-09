@@ -1,11 +1,26 @@
 <template>
   <div class="container-fluid">
     <div class="col-md-9">
-      <h1>Recent Debates</h1>
-      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin:20px;" v-for="item in debates">
+      <h1>Top Debates</h1>
+      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin:20px;" v-for="item in claimsTop">
         <div class="mdl-card__title">
-         <!--  <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" v-model="item.active"
-          style="margin-right: 20px;"/> -->
+          <h2 class="mdl-card__title-text">{{item.title}}</h2>
+        </div>
+        <div class="mdl-card__supporting-text" style="font-size: 2rem; text-align: left; line-height: 1.5;">
+         {{item.desc}}
+        </div>
+        <div class="mdl-card__actions mdl-card--border" style="text-align: left;">
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" @click="gruff(item.uuid)">
+            Gruff it
+          </a>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="col-md-9">
+      <h1>Recent Debates</h1>
+      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin:20px;" v-for="item in claims">
+        <div class="mdl-card__title">
           <h2 class="mdl-card__title-text">{{item.title}}</h2>
         </div>
         <div class="mdl-card__supporting-text" style="font-size: 2rem; text-align: left; line-height: 1.5;">
@@ -34,12 +49,14 @@ export default {
   name: 'home',
   data() {
     return {
-      debates: [],
+      claims: [],
+      claimsTop: [],
     };
   },
 
   created() {
     this.list();
+    this.listTop();
   },
 
   methods: {
@@ -49,7 +66,13 @@ export default {
 
     list() {
       axios.get(`${API_URL}/claims`).then((response) => {
-        this.debates = response.data;
+        this.claims = response.data;
+      });
+    },
+
+    listTop() {
+      axios.get(`${API_URL}/claims/top`).then((response) => {
+        this.claimsTop = response.data;
       });
     },
   },
