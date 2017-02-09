@@ -16,6 +16,9 @@
         </div>
       </div>
     </div>
+    <div class="col-md-3">
+      <h2>Tags</h2>
+    </div>
     <hr>
     <div class="col-md-9">
       <h1>Recent Debates</h1>
@@ -33,10 +36,8 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <h2>Tags</h2>
-    </div>
   </div>
+  
 </template>
 
 <script>

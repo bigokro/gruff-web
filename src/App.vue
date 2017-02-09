@@ -12,7 +12,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import User from './components/User';
 import Gruff from './components/Gruff';
-
+import Context from './components/Context';
 
 export default {
   name: 'app',
@@ -23,6 +23,7 @@ export default {
     Signup,
     User,
     Gruff,
+    Context,
   },
 };
 </script>

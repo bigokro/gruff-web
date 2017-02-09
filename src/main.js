@@ -38,6 +38,7 @@ const router = new VueRouter({
     { path: '/', component: App.components.Home },
     { path: '/gruff/:id', component: App.components.Gruff },
     { path: '/user', component: App.components.User, beforeEnter: requireAuth },
+    { path: '/context', component: App.components.Context, beforeEnter: requireAuth },
     { path: '/login', component: App.components.Login },
     { path: '/signup', component: App.components.Signup },
     { path: '/logout',
