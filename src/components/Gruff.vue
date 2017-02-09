@@ -37,16 +37,20 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.protruth">
-              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}
+              <i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('favor', item)"></i>
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} - 
+                <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
-              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}}</a>
-              <i class="fa fa-pencil" aria-hidden="true" style="margin-left:10px; cursor: pointer;" @click="edit('favor', item)"></i>
-              <ul style="list-style: none;" v-show="item.isShow">
-                <li v-if="item.desc != ''">{{item.desc}}</li>
-                <li v-else>{{item.claim.desc}}</li>
-                <li v-if="item.claim != undefined">Truth: {{item.claim.truth}}</li>
+              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}} - 
+                <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
+              </a>
+              <ul style="list-style: none; margin-left: 25px;">
                 <li>Impact: {{item.impact}}</li>
                 <li>Relevance: {{item.relevance}}</li>
+              </ul>
+              <ul style="list-style: none; margin-left: 25px;" v-show="item.isShow">
+                <li v-if="item.desc != ''">{{item.desc}}</li>
+                <li v-else>{{item.claim.desc}}</li>
               </ul>
             </ul>
           </div>
@@ -85,15 +89,21 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.contruth">
-              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}}</a>
-              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}}</a>
-              <i class="fa fa-pencil" aria-hidden="true" style="margin-left:10px; cursor: pointer;" @click="edit('favor', item)"></i>
-              <ul style="list-style: none;" v-show="item.isShow">
-                <li v-if="item.desc != ''">{{item.desc}}</li>
-                <li v-else>{{item.claim.desc}}</li>
-                <li v-if="item.claim != undefined">Truth: {{item.claim.truth}}</li>
+              <i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('against', item)"></i>
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} - 
+                <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
+              </a>
+              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}} - 
+                <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
+              </a>
+              <ul style="list-style: none; margin-left: 25px;">
                 <li>Impact: {{item.impact}}</li>
                 <li>Relevance: {{item.relevance}}</li>
+              </ul>
+              <ul style="list-style: none; margin-left: 25px;" v-show="item.isShow">
+                <li v-if="item.desc != ''">{{item.desc}}</li>
+                <li v-else>{{item.claim.desc}}</li>
+                <li v-if="item.claim != undefined"></li>
               </ul>
             </ul>
           </div>
@@ -208,6 +218,22 @@ export default {
             this.isError1 = false;
           }, 2000);
         });
+      } else {
+        const modelUpdate = {
+          title: this.argFavor.title,
+          desc: this.argFavor.desc,
+        };
+        axios.put(`${API_URL}/arguments/${this.argFavor.uuid}`, modelUpdate).then(() => {
+          this.formFavor = false;
+          this.argFavor = {};
+          this.list();
+        }, () => {
+          this.isError1 = true;
+          this.favorError = 'You must be logged.';
+          setTimeout(() => {
+            this.isError1 = false;
+          }, 2000);
+        });
       }
     },
 
@@ -223,6 +249,24 @@ export default {
 
       if (this.argAgainst.uuid === undefined) {
         axios.post(`${API_URL}/arguments`, model).then(() => {
+          this.formAgainst = false;
+          this.argAgainst = {};
+          this.list();
+        }, () => {
+          this.isError2 = true;
+          this.againstError = 'You must be logged.';
+
+          setTimeout(() => {
+            this.isError2 = false;
+          }, 2000);
+        });
+      } else {
+        const modelUpdate = {
+          title: this.argAgainst.title,
+          desc: this.argAgainst.desc,
+        };
+
+        axios.put(`${API_URL}/arguments/${this.argAgainst.uuid}`, modelUpdate).then(() => {
           this.formAgainst = false;
           this.argAgainst = {};
           this.list();

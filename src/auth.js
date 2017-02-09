@@ -17,6 +17,7 @@ export default {
 
       this.user.authenticated = true;
       this.user.name = response.data.user.name;
+      this.loggedIn();
 
       if (redirect !== undefined) {
         router.push(redirect);
@@ -52,12 +53,15 @@ export default {
 
   loggedIn() {
     const auth = localStorage.getItem('gruff_token');
+    const token = JSON.parse(localStorage.getItem('gruff_token'));
     if (auth !== null) {
       this.user.authenticated = true;
-      this.user.name = JSON.parse(localStorage.getItem('gruff_token')).user.name;
+      this.user.name = token.user.name;
     } else {
       this.user.authenticated = false;
     }
+
+    axios.defaults.headers.common.Authorization = `Bearer ${token.token}`;
 
     return this.user.authenticated;
   },
