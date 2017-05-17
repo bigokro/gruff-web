@@ -37,7 +37,7 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.protruth">
-              <i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('favor', item)"></i>
+              <i v-show="item.createdById == userIdLogged" class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('favor', item)"></i>
               <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} - 
                 <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
@@ -89,7 +89,7 @@
           </div>
           <div class="mdl-card__supporting-text">
             <ul v-for="item in debate.contruth">
-              <i class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('against', item)"></i>
+              <i v-show="item.createdById == userIdLogged" class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('against', item)"></i>
               <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} - 
                 <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
@@ -115,7 +115,7 @@
 
 <script>
 import axios from 'axios';
-// import auth from '../auth';
+import auth from '../auth';
 
 const API_URL = 'http://localhost:8080/api';
 
@@ -130,10 +130,13 @@ export default {
       isError2: false,
       argFavor: {},
       argAgainst: {},
+      userIdLogged: 0,
     };
   },
 
   created() {
+    this.userIdLogged = auth.getLoggedId();
+    console.log(this.userIdLogged);
     this.list();
   },
 
