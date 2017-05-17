@@ -13,6 +13,7 @@ import Signup from './components/Signup';
 import User from './components/User';
 import Gruff from './components/Gruff';
 import Context from './components/Context';
+import ContextManager from './components/ContextManager';
 
 export default {
   name: 'app',
@@ -24,6 +25,7 @@ export default {
     User,
     Gruff,
     Context,
+    ContextManager,
   },
 };
 </script>
@@ -33,7 +35,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 .my-swipe {
@@ -56,5 +57,14 @@ export default {
 .slide3 {
   background-color: #ff2d4b;
   color: #fff;
+}
+
+.reset-col {
+  margin:0;
+  padding:0;
+}
+
+.align-center{
+  text-align: center;
 }
 </style>
