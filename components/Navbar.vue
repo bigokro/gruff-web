@@ -11,14 +11,12 @@
         <div class="mdl-layout-spacer"></div>
         <!-- Navigation. We hide it in small screens. -->
         <nav class="mdl-navigation mdl-layout--large-screen-only">
-          <nuxt-link class="mdl-navigation__link" to="/login">Login</nuxt-link>
-        <!-- <router-link class="mdl-navigation__link"  v-if="!user.authenticated" to="/login">Log in</router-link>
-          <router-link class="mdl-navigation__link" to="/login" v-if="!user.authenticated">Log in to start your own debate!</router-link>
-          <router-link class="mdl-navigation__link" to="/signup" v-if="!user.authenticated">Register</router-link>
-          <router-link class="mdl-navigation__link" to="/login" v-if="!user.authenticated">Login</router-link>
-          <router-link class="mdl-navigation__link" to="/user" v-if="user.authenticated">Hi, {{user.name}}</router-link>
-          <router-link class="mdl-navigation__link" to="/context" v-if="user.authenticated">Context</router-link>
-          <a class="mdl-navigation__link" @click="logout()" v-if="user.authenticated">Logout</a> -->
+          <nuxt-link class="mdl-navigation__link" to="/login" v-if="!$store.state.authUser">Log in to start your own debate!</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/signup" v-if="!$store.state.authUser">Register</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/login" v-if="!$store.state.authUser">Login</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/user" v-if="$store.state.authUser">Hi, {{$store.state.authUser.user.name}}</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/context" v-if="$store.state.authUser">Context</nuxt-link>
+          <a class="mdl-navigation__link" @click="logout()" v-if="$store.state.authUser">Logout</a>
         </nav>
       </div>
     </header>
@@ -27,21 +25,20 @@
 
 <script>
 
-// import auth from '../auth';
-
 export default {
   name: 'navbar',
   data () {
     return {
-      // user: auth.user,
+      user: this.$store.state.authUser
+    }
+  },
+
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+      this.$route.push('/')
     }
   }
-
-  // methods: {
-  //   logout() {
-  //     auth.logout();
-  //   },
-  // },
 }
 </script>
 

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-// import auth from '../auth';
+
 export default {
   data () {
     return {
@@ -40,11 +40,21 @@ export default {
 
   methods: {
     submit () {
-      // const credentials = {
-      //   email: this.credentials.email,
-      //   password: this.credentials.password
-      // }
-      // auth.login(this, credentials, '/')
+      this.$store.dispatch('login', {
+        email: this.credentials.email,
+        password: this.credentials.password
+      })
+      .then(() => {
+        this.$router.push('/')
+        this.credentials = {
+          email: '',
+          password: ''
+        }
+        this.error = ''
+      })
+      .catch((e) => {
+        this.error = e.message
+      })
     }
   }
 }
