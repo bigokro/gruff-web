@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <div class="col-md-9">
       <h1>Top Debates</h1>
-      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 20px 0;" v-for="item in claimsTop">
+      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 20px 0;" 
+      v-for="item in claimsTop" v-bind:key="item.id">
         <div class="mdl-card__title">
           <h2 class="mdl-card__title-text">{{item.title}}</h2>
         </div>
@@ -22,7 +23,8 @@
     <hr>
     <div class="col-md-9">
       <h1>Recent Debates</h1>
-      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 20px 0;" v-for="item in claims">
+      <div class="col-md-12 demo-card-wide mdl-card mdl-shadow--2dp" style="margin: 20px 0;" 
+      v-for="item in claims" v-bind:key="item.id">
         <div class="mdl-card__title">
           <h2 class="mdl-card__title-text">{{item.title}}</h2>
         </div>
@@ -42,7 +44,6 @@
 
 <script>
 import axios from 'axios'
-// import router from '../main';
 
 const API_URL = 'http://localhost:8080/api'
 
@@ -78,11 +79,36 @@ export default {
     }
   }
 }
-
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style>
+.container
+{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.title
+{
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
+.subtitle
+{
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 15px;
+}
+.links
+{
+  padding-top: 15px;
+}
 </style>
-

@@ -1,4 +1,4 @@
-# gruff-web
+# gruff-web2
 
 > Nuxt.js project
 

@@ -11,12 +11,12 @@
         <div class="mdl-layout-spacer"></div>
         <!-- Navigation. We hide it in small screens. -->
         <nav class="mdl-navigation mdl-layout--large-screen-only">
-          <nuxt-link class="mdl-navigation__link" to="/login" v-if="!$store.state.authUser">Log in to start your own debate!</nuxt-link>
-          <nuxt-link class="mdl-navigation__link" to="/signup" v-if="!$store.state.authUser">Register</nuxt-link>
-          <nuxt-link class="mdl-navigation__link" to="/login" v-if="!$store.state.authUser">Login</nuxt-link>
-          <nuxt-link class="mdl-navigation__link" to="/user" v-if="$store.state.authUser">Hi, {{$store.state.authUser.user.name}}</nuxt-link>
-          <nuxt-link class="mdl-navigation__link" to="/context" v-if="$store.state.authUser">Context</nuxt-link>
-          <a class="mdl-navigation__link" @click="logout()" v-if="$store.state.authUser">Logout</a>
+          <nuxt-link class="mdl-navigation__link" to="/login" v-if="!$store.state.loggedIn">Log in to start your own debate!</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/signup" v-if="!$store.state.loggedIn">Register</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/login" v-if="!$store.state.loggedIn">Login</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/user" v-if="$store.state.loggedIn">Hi, {{$store.state.authUser.user.name}}</nuxt-link>
+          <nuxt-link class="mdl-navigation__link" to="/context" v-if="$store.state.loggedIn">Context</nuxt-link>
+          <a class="mdl-navigation__link" @click="logout()" v-if="$store.state.loggedIn">Logout</a>
         </nav>
       </div>
     </header>
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'navbar',
   data () {
     return {
-      user: this.$store.state.authUser
+      user: this.$store.state.authUser,
+      loggedIn: this.$store.state.loggedIn
     }
   },
 
@@ -44,5 +44,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .mdl-navigation__link {
+    cursor: pointer;
+  }
 </style>
