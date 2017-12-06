@@ -9,7 +9,7 @@
       <input
         type="text"
         class="form-control"
-        placeholder="Enter your email"
+        placeholder="Enter your email or username"
         v-model="credentials.email"
       >
     </div>
@@ -43,9 +43,14 @@ export default {
   methods: {
     submit() {
       const credentials = {
-        email: this.credentials.email,
         password: this.credentials.password,
       };
+
+      if (this.credentials.email.indexOf('@') !== -1) {
+        credentials.email = this.credentials.email;
+      } else {
+        credentials.username = this.credentials.email;
+      }
       auth.login(this, credentials, '/');
     },
   },

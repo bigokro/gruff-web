@@ -24,12 +24,13 @@ export default {
       }
     }, (err) => {
       const ctx = context;
-      ctx.error = err;
+      ctx.error = err.message;
     });
   },
 
   signup(context, model, redirect) {
     axios.post(`${API_URL}/users`, model).then((response) => {
+      console.log(response);
       localStorage.setItem('gruff_token', JSON.stringify(response.data));
 
       this.user.authenticated = true;

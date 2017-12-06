@@ -13,6 +13,7 @@ Vue.use(VueRouter);
 /* eslint-disable no-new */
 const storage = localStorage.getItem('gruff_token');
 let token = '';
+axios.defaults.headers.common['X-Gruff'] = 'Gruff';
 
 if (storage !== null) {
   auth.loggedIn();

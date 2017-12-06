@@ -36,18 +36,18 @@
             <h2 class="mdl-card__title-text">Arguments</h2>
           </div>
           <div class="mdl-card__supporting-text">
-            <ul v-for="item in debate.protruth">
+            <ul v-for="item in debate.protruth" v-bind:key="item.uuid">
               <i v-show="item.createdById == userIdLogged" class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('favor', item)"></i>
-              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} - 
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} -
                 <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
-              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}} - 
+              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}} -
                 <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
-              <ul style="list-style: none; margin-left: 25px;">
+              <!-- <ul style="list-style: none; margin-left: 25px;">
                 <li>Impact: {{item.impact}}</li>
                 <li>Relevance: {{item.relevance}}</li>
-              </ul>
+              </ul> -->
               <ul style="list-style: none; margin-left: 25px;" v-show="item.isShow">
                 <li v-if="item.desc != ''">{{item.desc}}</li>
                 <li v-else>{{item.claim.desc}}</li>
@@ -88,18 +88,18 @@
             <h2 class="mdl-card__title-text">Arguments</h2>
           </div>
           <div class="mdl-card__supporting-text">
-            <ul v-for="item in debate.contruth">
+            <ul v-for="item in debate.contruth" v-bind:key="item.uuid">
               <i v-show="item.createdById == userIdLogged" class="fa fa-pencil" aria-hidden="true" style="margin-right:10px; cursor: pointer;" @click="edit('against', item)"></i>
-              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} - 
+              <a @click="item.isShow = !item.isShow" v-if="item.title != ''">{{item.title}} -
                 <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
-              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}} - 
+              <a @click="item.isShow = !item.isShow" v-else>{{item.claim.title}} -
                 <span v-if="item.claim != undefined" style="color:#000;">Truth: {{item.claim.truth}}</span>
               </a>
-              <ul style="list-style: none; margin-left: 25px;">
+              <!-- <ul style="list-style: none; margin-left: 25px;">
                 <li>Impact: {{item.impact}}</li>
                 <li>Relevance: {{item.relevance}}</li>
-              </ul>
+              </ul> -->
               <ul style="list-style: none; margin-left: 25px;" v-show="item.isShow">
                 <li v-if="item.desc != ''">{{item.desc}}</li>
                 <li v-else>{{item.claim.desc}}</li>
@@ -136,7 +136,6 @@ export default {
 
   created() {
     this.userIdLogged = auth.getLoggedId();
-    console.log(this.userIdLogged);
     this.list();
   },
 

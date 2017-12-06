@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in contexts">
+          <tr v-for="item in contexts" v-bind:key="item.id">
             <td class="mdl-data-table__cell--non-numeric">{{item.title}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{item.desc}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{item.url}}</td>
@@ -35,7 +35,7 @@
       </div>
     </div>
   </div>
-  
+
 </template>
 
 <script>
